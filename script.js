@@ -182,4 +182,75 @@
         "&text=" + encodeURIComponent(msg), "_blank");
     });
   });
+
+  /* ---------- testimonials carousel (mobile only) ---------- */
+  function initTestiCarousel() {
+    var track = document.getElementById("testi-track");
+    var dotsEl = document.getElementById("testi-dots");
+    if (!track || !dotsEl) return;
+
+    var cards = Array.from(track.querySelectorAll(".testi"));
+    if (cards.length < 2) return;
+
+    var current = 0;
+    var timer = null;
+    var INTERVAL = 4800;
+
+    track.classList.add("carousel-ready");
+
+    cards.forEach(function (c) {
+      c.classList.remove("reveal", "in", "d1", "d2");
+    });
+
+    cards[0].classList.add("testi-active");
+    dotsEl.querySelectorAll(".testi-dot")[0].classList.add("active");
+
+    function goTo(idx) {
+      if (idx === current) return;
+      var prev = current;
+      current = (idx + cards.length) % cards.length;
+
+      cards[prev].classList.remove("testi-active");
+      cards[prev].classList.add("testi-exit");
+      setTimeout(function () { cards[prev].classList.remove("testi-exit"); }, 550);
+
+      cards[current].classList.add("testi-active");
+
+      dotsEl.querySelectorAll(".testi-dot").forEach(function (d, i) {
+        d.classList.toggle("active", i === current);
+      });
+    }
+
+    function next() { goTo((current + 1) % cards.length); }
+
+    function startTimer() {
+      clearInterval(timer);
+      timer = setInterval(next, INTERVAL);
+    }
+
+    dotsEl.querySelectorAll(".testi-dot").forEach(function (dot) {
+      dot.addEventListener("click", function () {
+        goTo(parseInt(this.getAttribute("data-idx"), 10));
+        startTimer();
+      });
+    });
+
+    var touchX = 0;
+    track.addEventListener("touchstart", function (e) {
+      touchX = e.touches[0].clientX;
+    }, { passive: true });
+    track.addEventListener("touchend", function (e) {
+      var diff = touchX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 48) {
+        goTo(diff > 0 ? current + 1 : current - 1);
+        startTimer();
+      }
+    }, { passive: true });
+
+    startTimer();
+  }
+
+  if (window.matchMedia("(max-width: 860px)").matches) {
+    initTestiCarousel();
+  }
 })();

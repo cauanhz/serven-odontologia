@@ -348,6 +348,7 @@ section { position: relative; }
 .testi .avatar { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; border: 1px solid rgba(240,208,128,0.4); flex-shrink: 0; }
 .testi .who .name { font-weight: 600; font-size: 0.92rem; }
 .testi .who .role { font-size: 0.76rem; color: var(--cream-dim); margin-top: 3px; }
+.testi-dots { display: none; }
 
 /* ============================================================
    BOOKING
@@ -505,6 +506,61 @@ section { position: relative; }
   .loc-map { min-height: 320px; }
   .section { padding: 84px 0; }
   .footer-top { flex-direction: column; text-align: center; }
+
+  /* — testimonials carousel — */
+  .testi-grid.carousel-ready {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: none;
+    margin: 0;
+    gap: 0;
+  }
+  .testi-grid.carousel-ready .testi {
+    grid-area: 1 / 1;
+    opacity: 0;
+    transform: translateY(28px) scale(0.95);
+    transition:
+      opacity 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .testi-grid.carousel-ready .testi.testi-active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    z-index: 1;
+  }
+  .testi-grid.carousel-ready .testi.testi-exit {
+    opacity: 0;
+    transform: translateY(-20px) scale(1.02);
+    transition-duration: 0.5s;
+    z-index: 2;
+  }
+  .testi-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+  }
+  .testi-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(240, 208, 128, 0.22);
+    cursor: pointer;
+    transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                background 0.4s ease,
+                border-radius 0.4s ease;
+    padding: 0;
+  }
+  .testi-dot.active {
+    background: var(--gold);
+    width: 28px;
+    border-radius: 4px;
+  }
 }
 @media (max-width: 520px) {
   .wrap { padding: 0 20px; }
