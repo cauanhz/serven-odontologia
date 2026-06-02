@@ -474,6 +474,7 @@ section { position: relative; }
 @media (max-width: 860px) {
   .nav-links { display: none; }
   .nav-toggle { display: flex; }
+  .nav-cta { display: none; }
   .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 38px 20px; }
   .trust-item:nth-child(2)::after { display: none; }
   .about-grid, .booking-grid, .loc-grid { grid-template-columns: 1fr; }
