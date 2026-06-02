@@ -15,12 +15,21 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
-  /* ---------- mobile menu (simple anchor jump) ---------- */
+  /* ---------- mobile menu ---------- */
   var toggle = document.querySelector(".nav-toggle");
-  if (toggle) {
+  var navLinks = document.querySelector(".nav-links");
+  if (toggle && navLinks) {
     toggle.addEventListener("click", function () {
-      var t = document.getElementById("agendar");
-      if (t) t.scrollIntoView({ behavior: "smooth" });
+      var isOpen = navLinks.classList.toggle("nav-open");
+      toggle.setAttribute("aria-label", isOpen ? "Fechar menu" : "Abrir menu");
+      toggle.classList.toggle("open", isOpen);
+    });
+    navLinks.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        navLinks.classList.remove("nav-open");
+        toggle.classList.remove("open");
+        toggle.setAttribute("aria-label", "Abrir menu");
+      });
     });
   }
 
